@@ -13,4 +13,21 @@ async function getUserById (ctx, next) {
     await next();
 }
 
-module.exports = { getUsers, getUserById };
+async function createUser (ctx, next) {
+    ctx.body = await myDb.createUser(ctx.request.body.username);
+    ctx.status = 201;
+    await next();
+}
+
+async function updateUserById (ctx, next) {
+    ctx.body = await myDb.updateUserById(ctx.params.id, ctx.request.body.username);
+    await next();
+}
+
+async function deleteUserById (ctx, next) {
+    await myDb.deleteUserById(ctx.params.id);
+    ctx.status = 204;
+    await next();
+}
+
+module.exports = { getUsers, getUserById, createUser, updateUserById, deleteUserById };

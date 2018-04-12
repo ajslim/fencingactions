@@ -15,12 +15,9 @@ const User = sequelize.define('user', {
 });
 
 module.exports = {
-
-    /**
-     * Get all records from memory DB
-     * @return {Promise}
-     */
     getUsers: () => User.findAll(),
-
-    getUserById: (id) => User.findOne({ where: { id: id } })
+    getUserById: (id) => User.findOne({ where: { id } }),
+    createUser: (username) => User.create({ username }),
+    updateUserById: (id, username) => User.update({ username }, { where: { id } }),
+    deleteUserById: (id) => User.destroy({ where: { id }})
 };
