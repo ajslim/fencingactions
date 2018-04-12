@@ -17,11 +17,17 @@ const User = sequelize.define('user', {
     }
 });
 
+// Don't return passwords
+const userAttributes = ['id', 'username'];
+
 module.exports = {
-    getUsers: () => User.findAll(),
-    getUserById: (id) => User.findOne({ where: { id } }),
-    getUserByUsername: (username) => User.findOne({ where: { username } }),
-    createUser: (username) => User.create({ username }),
-    updateUserById: (id, username) => User.update({ username }, { where: { id } }),
-    deleteUserById: (id) => User.destroy({ where: { id }})
+    getUsers: () => User.findAll({ attributes: userAttributes }),
+    getUserById: (id) => User.findOne({ attributes: userAttributes, where: { id } }),
+
+    // This is used by the auth function
+    getFullUserByUsername: (username) => User.findOne({ where: { username } }),
+
+    createUser: (username, password) => User.create({ username, password }),
+    updateUserById: (id, username, password) => User.update({ username, password }, { where: { id } }),
+    deleteUserById: (id) => User.destroy({ where: { id }}),
 };

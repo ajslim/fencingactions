@@ -1,16 +1,13 @@
 const auth = require('basic-auth');
 const db = require('../managers/db');
 const bcrypt = require('bcrypt');
-const saltRounds = 5;
 
 module.exports = async (ctx, next) => {
-    const credentials = auth(ctx)
+    const credentials = auth(ctx);
     const username = credentials.name;
     const submittedPassword = credentials.pass;
-    const user = await db.getUserByUsername(username);
+    const user = await db.getFullUserByUsername(username);
     const validPassword = bcrypt.compareSync(submittedPassword, user.password);
-
-    console.log(validPassword);
 
     if (!validPassword) {
         ctx.status = 401;
