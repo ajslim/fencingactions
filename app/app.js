@@ -1,10 +1,12 @@
 const http = require('http'),
       Koa = require('koa'),
       config = require('config'),
+      auth = require('./auth/auth'),
       err = require('./helpers/error'),
-     {routes, allowedMethods}  = require('./routes'),
+      { routes, allowedMethods }  = require('./routes'),
       app = new Koa();
 
+app.use(auth);
 app.use(err);
 app.use(routes());
 app.use(allowedMethods());

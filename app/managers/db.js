@@ -11,12 +11,16 @@ const User = sequelize.define('user', {
     },
     username: {
         type: Sequelize.STRING
+    },
+    password: {
+        type: Sequelize.STRING
     }
 });
 
 module.exports = {
     getUsers: () => User.findAll(),
     getUserById: (id) => User.findOne({ where: { id } }),
+    getUserByUsername: (username) => User.findOne({ where: { username } }),
     createUser: (username) => User.create({ username }),
     updateUserById: (id, username) => User.update({ username }, { where: { id } }),
     deleteUserById: (id) => User.destroy({ where: { id }})
