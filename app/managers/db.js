@@ -2,6 +2,7 @@
 
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize('mysql://root:root@localhost/fencing_actions');
+const bcrypt = require('bcrypt');
 
 const User = sequelize.define('user', {
     id: {
@@ -17,6 +18,17 @@ const User = sequelize.define('user', {
     }
 });
 
+const Call = sequelize.define('call', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
+    desciption: {
+        type: Sequelize.STRING
+    }
+});
+
 const Action = sequelize.define('action', {
     id: {
         type: Sequelize.INTEGER,
@@ -25,6 +37,14 @@ const Action = sequelize.define('action', {
     },
     url: {
         type: Sequelize.STRING
+    },
+    // Set FK relationship (hasMany) with `Trainer`
+    call_on_site_id: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: "call",
+            key: "id"
+        }
     }
 });
 
@@ -47,4 +67,14 @@ module.exports = {
     createAction: (url) => Action.create({ url }),
     updateActionById: (id, url) => Action.update({ url }, { where: { id } }),
     deleteActionById: (id) => Action.destroy({ where: { id }}),
+
+    initializeDatabase: () => {
+        User.sync({force: true}).then(() => {
+            // Table created
+            return User.create({username: "test", password: bcrypt.hashSync('test', 10)});
+        });
+
+        Call.sync({force: true});
+        Action.sync({force: true});
+    }
 };

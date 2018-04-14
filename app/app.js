@@ -3,9 +3,12 @@ const http = require('http'),
       config = require('config'),
       auth = require('./auth/auth'),
       err = require('./helpers/error'),
+      db = require('./managers/db'),
       { routes, allowedMethods }  = require('./routes'),
       app = new Koa();
 
+
+db.initializeDatabase();
 app.use(auth);
 app.use(err);
 app.use(routes());
