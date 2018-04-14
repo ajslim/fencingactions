@@ -71,10 +71,6 @@ Get the user
     + Body
 
 
-        {
-            "id": 1,
-            "username": "new user name",
-            "password": "$2b$10$yR0AxtBaOWTzl3aWv1IpTuW71ZlClQV1frKkl3QLEh7h9sQNvdYSy",
-            "updatedAt": "2018-04-14T22:40:47.026Z",
-            "createdAt": "2018-04-14T22:40:47.026Z"
-        }
+        [
+            1
+        ]
