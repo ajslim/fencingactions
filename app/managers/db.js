@@ -71,10 +71,15 @@ module.exports = {
     initializeDatabase: () => {
         User.sync({force: true}).then(() => {
             // Table created
-            return User.create({username: "test", password: bcrypt.hashSync('test', 10)});
+            User.create({username: "test", password: bcrypt.hashSync('test', 10)});
+            return User.create({username: "testuser", password: bcrypt.hashSync('test', 10)});
+        });
+
+        Action.sync({force: true}).then(() => {
+            // Table created
+            return Action.create({url: "http://www.google.com", call_on_site: 1});
         });
 
         Call.sync({force: true});
-        Action.sync({force: true});
     }
 };
